@@ -6,7 +6,6 @@ export const Delete = requestMethodCreator.bind(null, MethodTypes.DELETE);
 export const Head = requestMethodCreator.bind(null, MethodTypes.HEAD);
 export const Put = requestMethodCreator.bind(null, MethodTypes.PUT);
 export const All = requestMethodCreator.bind(null, MethodTypes.ALL);
-export const Use = requestMethodCreator.bind(null, MethodTypes.USE);
 
 function requestMethodCreator(methodType: MethodTypes, path: string) {
 	return function (target, propertyKey) {

@@ -2,13 +2,15 @@ import { Controller } from './classes/Controller';
 import { Middleware } from './classes/Middleware';
 
 interface ControllerC {
-	new(): Controller;
-	router();
+	new?(): Controller;
+	router(app);
 	createRouter();
+	[key: string]: any;
 }
 
 interface MiddlewareC {
-	new(): Middleware;
+	new?(): Middleware;
+	[key: string]: any;
 }
 
 declare type InjectableI = Controller | Middleware

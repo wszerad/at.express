@@ -1,6 +1,8 @@
 import * as assert from 'assert';
 import 'mocha';
-import { req } from './util';
+import 'chai';
+import 'chai-http'
+import { req } from '../util';
 
 describe('Methods', function () {
 

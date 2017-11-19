@@ -1,8 +1,8 @@
-import { Controller } from '../classes/Controller';
-import { Include } from '../decorators/Include.decorator';
-import { Get } from '../decorators/RequestMethods.decorator';
+import { Controller } from '../../classes/Controller';
+import { Path } from '../../decorators/Path.decorator';
+import { Get } from '../../decorators/RequestMethods.decorator';
 
-@Include('/async')
+@Path('/async')
 export class Async extends Controller {
 
 	@Get('/async')

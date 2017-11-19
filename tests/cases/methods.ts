@@ -1,8 +1,8 @@
-import { Controller } from '../classes/Controller';
-import { Include } from '../decorators/Include.decorator';
-import { All, Delete, Get, Head, Post, Put } from '../decorators/RequestMethods.decorator';
+import { Controller } from '../../classes/Controller';
+import { Path } from '../../decorators/Path.decorator';
+import { All, Delete, Get, Head, Post, Put } from '../../decorators/RequestMethods.decorator';
 
-@Include('/methods')
+@Path('/methods')
 export class Methods extends Controller {
 
 	@Get('/get')

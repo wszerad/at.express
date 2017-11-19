@@ -48,7 +48,8 @@ export class MetadataObject {
 	path: string;
 	methodType: MethodTypes;
 	params: string[] = [];
-	paramsTypes: string[] = [];
+	paramsTypes: any[] = [];
+	paramsValidate: boolean[] = [];
 	before: MiddlewareC[] = [];
 	after: MiddlewareC[] = [];
 	nested: ControllerC[] = [];

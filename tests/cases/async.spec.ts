@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import 'mocha';
-import { req } from './util';
+import { req } from '../util';
 
 describe('Async methods', function () {
 

@@ -12,7 +12,7 @@ class InjectorConstructor {
 		if(this.services.has(target)) {
 			return this.services.get(target);
 		} else {
-			const record = new target();
+			const record = new (<any>target)();
 			this.services.set(target, record);
 			return record;
 		}
