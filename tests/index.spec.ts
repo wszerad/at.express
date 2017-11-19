@@ -22,6 +22,7 @@ describe('Class', function() {
 	require('./cases/services.spec');
 	require('./cases/nested.spec');
 	require('./cases/convert&validate.spec');
+	require('./cases/swagger.spec');
 
 });
 

@@ -3,6 +3,7 @@ import { ControllerC } from '../model';
 import { RequestWrapper } from '../utils/RequestWrapper';
 import { MetaAccessor, MetadataObject } from '../utils/MetaAccessor';
 import { Injector } from '../utils/Injector';
+import { SchemaStore } from '../utils/SchemaStore';
 
 export class Controller {
 	static router(app) {
@@ -45,7 +46,7 @@ export class Controller {
 				meta: MetaAccessor.get(instance[name])
 			}) as Endpoint)
 			.filter(method => !!method.meta && method.name !== 'constructor')
-			.forEach(({method, meta}) => {
+			.forEach(({name, method, meta}) => {
 
 				if (meta.nested.length) {
 					meta.nested.forEach(function (controller) {
@@ -59,13 +60,12 @@ export class Controller {
 
 					});
 				} else {
-
+					SchemaStore.addMethod(controller, name);
 					router[meta.methodType](meta.path, ...[
 						...meta.before.map(midd => Injector.middlewareExecutor(midd)),
 						RequestWrapper.create(instance, method, meta),
 						...meta.after.map(midd => Injector.middlewareExecutor(midd)),
 					]);
-
 				}
 
 			});
