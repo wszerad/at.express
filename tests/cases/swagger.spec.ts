@@ -1,13 +1,14 @@
 import * as assert from 'assert';
 import 'mocha';
-import { SchemaStore } from '../../utils/SchemaStore';
+import { req } from '../util';
 
 describe('Swagger', function () {
 
 	it('JSONSchema', (done) => {
-		const schema = SchemaStore.getJSONSchema('127.0.0.1', '/api');
-		assert.equal(schema.paths['/swagger/swagger'], {});
-		done();
+		req().get('/API').end((err, res) => {
+			assert.equal(res.text, JSON.stringify(require('./swagger.response.json')));
+			done();
+		});
 	});
 
 });

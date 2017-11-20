@@ -4,7 +4,7 @@ import { Middleware } from './classes/Middleware';
 interface ControllerC {
 	new?(): Controller;
 	router(app);
-	createRouter();
+	createRouter(stackedPath?: string);
 	[key: string]: any;
 }
 

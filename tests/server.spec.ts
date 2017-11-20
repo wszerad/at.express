@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { SchemaStore } from '../utils/SchemaStore';
+import { API } from '../predefined/API.wrapper';
 import { Arguments } from './cases/arguments';
 import { Async } from './cases/async';
 import { ConvertValidate } from './cases/convert&validate';
@@ -9,7 +9,7 @@ import { Methods } from './cases/methods';
 import { MiddlewareController, MiddlewareExtended, MiddlewareNested } from './cases/middleware';
 import { Nested1, Nested2 } from './cases/nested';
 import { Services } from './cases/services';
-import { Swagger } from './cases/swagger';
+import { definitions, Swagger } from './cases/swagger';
 
 export const app = express();
 
@@ -28,6 +28,11 @@ Nested1.router(app);
 Nested2.router(app);
 Errors.router(app);
 ConvertValidate.router(app);
+app.get('/API', API({
+	host: '127.0.0.1:3000',
+	basePath: '',
+	definitions
+}));
 Swagger.router(app);
 
 export const server = app.listen(3000);

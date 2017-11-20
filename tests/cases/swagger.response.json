@@ -1,0 +1,76 @@
+{
+	"swagger": "2.0",
+	"host": "127.0.0.1:3000",
+	"basePath": "",
+	"tags": [
+		{
+			"name": "NestedSwagger"
+		},
+		{
+			"name": "Swagger"
+		}
+	],
+	"paths": {
+		"/swagger/nested/{name}/{path}/swagger": {
+			"get": {
+				"tags": [
+					"NestedSwagger"
+				],
+				"operationId": "get",
+				"parameters": [
+					{
+						"name": "name",
+						"in": "path",
+						"type": "string"
+					},
+					{
+						"name": "path",
+						"in": "path",
+						"type": "number"
+					}
+				],
+				"description": ""
+			}
+		},
+		"/swagger/swagger": {
+			"post": {
+				"tags": [
+					"Swagger"
+				],
+				"operationId": "post",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/BodyModel"
+						}
+					}
+				],
+				"description": ""
+			}
+		}
+	},
+	"definitions": {
+		"ParamsModel": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"path": {
+					"type": "number"
+				}
+			}
+		},
+		"BodyModel": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"path": {
+					"type": "number"
+				}
+			}
+		}
+	}
+}

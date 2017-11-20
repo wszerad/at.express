@@ -1,44 +1,58 @@
 import { Controller } from '../../classes/Controller';
+import { Use } from '../../decorators/Middleware.decorator';
 import { Path } from '../../decorators/Path.decorator';
-import { Post } from '../../decorators/RequestMethods.decorator';
+import { Post, Get } from '../../decorators/RequestMethods.decorator';
 import { Body, Params } from '../../decorators/RequestParams.decorator';
 
 
 class BodyModel {
-	static schema() {
-		return {
-			properties: {
-				name: {
-					type: 'string',
-				},
-				path: {
-					type: 'number'
-				}
-			}
-		}
-	}
+	name: string;
+	path: number;
 }
 
 class ParamsModel {
-	static schema() {
-		return {
-			properties: {
-				name: {
-					type: 'string',
-				},
-				path: {
-					type: 'number'
-				}
+	name: string;
+	path: number;
+}
+
+export const definitions = {
+	ParamsModel: {
+		properties: {
+			name: {
+				type: 'string',
+			},
+			path: {
+				type: 'number'
+			}
+		}
+	},
+	BodyModel: {
+		properties: {
+			name: {
+				type: 'string',
+			},
+			path: {
+				type: 'number'
 			}
 		}
 	}
+};
+
+@Path('/nested/:name/:path')
+class NestedSwagger extends Controller {
+
+	@Get('/swagger')
+	get(@Params p: ParamsModel) {
+		return 'ok';
+	}
 }
 
+@Use(NestedSwagger)
 @Path('/swagger')
 export class Swagger extends Controller {
 
 	@Post('/swagger')
-	get(@Params p: ParamsModel, @Body b: BodyModel) {
+	post(@Body b: BodyModel) {
 		return 'ok';
 	}
 

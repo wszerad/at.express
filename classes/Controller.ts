@@ -1,18 +1,20 @@
 import * as express from 'express';
+import * as path from 'path';
 import { ControllerC } from '../model';
+import { APIInstance } from '../predefined/API.wrapper';
 import { RequestWrapper } from '../utils/RequestWrapper';
 import { MetaAccessor, MetadataObject } from '../utils/MetaAccessor';
 import { Injector } from '../utils/Injector';
-import { SchemaStore } from '../utils/SchemaStore';
 
-export class Controller {
+export abstract class Controller {
+
 	static router(app) {
 		const controller = this;
 		const cMeta = MetaAccessor.get(controller);
-		app.use(cMeta.path, this.createRouter());
+		app.use(cMeta.path, this.createRouter(cMeta.path));
 	};
 
-	static createRouter() {
+	static createRouter(stackedPath: string = '') {
 		const controller = this;
 		const instance = Injector.get(<ControllerC>this);
 		const cMeta = MetaAccessor.get(controller);
@@ -30,7 +32,7 @@ export class Controller {
 
 			router.use(nMeta.path, ...[
 				...nMeta.before.map(midd => Injector.middlewareExecutor(midd)),
-				controller.createRouter(),
+				controller.createRouter(path.posix.join(stackedPath, nMeta.path)),
 				...nMeta.after.map(midd => Injector.middlewareExecutor(midd))
 			]);
 		});
@@ -54,13 +56,13 @@ export class Controller {
 
 						router.use(nMeta.path, ...[
 							...meta.before.map(midd => Injector.middlewareExecutor(midd)),
-							controller.createRouter(),
+							controller.createRouter(path.posix.join(stackedPath, nMeta.path)),
 							...meta.after.map(midd => Injector.middlewareExecutor(midd))
 						])
 
 					});
 				} else {
-					SchemaStore.addMethod(controller, name);
+					APIInstance.addMethod(stackedPath, controller, name);
 					router[meta.methodType](meta.path, ...[
 						...meta.before.map(midd => Injector.middlewareExecutor(midd)),
 						RequestWrapper.create(instance, method, meta),
@@ -82,4 +84,8 @@ interface Endpoint {
 	name: string;
 	method: Function;
 	meta: MetadataObject;
+}
+
+interface ControllerConfig {
+	constructor?(config?: any);
 }
