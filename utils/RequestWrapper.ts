@@ -24,21 +24,5 @@ export class RequestWrapper {
 }
 
 function metadataExtractor(metadata: MetadataObject) {
-	return metadata.params
-		.map((param, index) => {
-			const type = metadata.paramsTypes[index];
-			const validate = metadata.paramsValidate[index];
-
-			if(validate && type && Reflect.has(type, 'parse')) {
-				return assignValidation(param, index);
-			} else {
-				return param;
-			}
-		})
-		.concat('req', 'res')
-		.join();
-}
-
-function assignValidation(dataSource: string, index: number) {
-	return `(req[Symbol.for("${dataSource}")] = req[Symbol.for("${dataSource}")] || meta.paramsTypes[${index}].parse(${dataSource}))`;
+	return metadata.params.concat('req', 'res').join();
 }
