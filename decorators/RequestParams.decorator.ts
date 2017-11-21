@@ -1,4 +1,4 @@
-import { MetaAccessor } from '../utils/MetaAccessor';
+import { MetaAccessor, MetadataObject } from '../utils/MetaAccessor';
 import 'reflect-metadata';
 
 export const Session = requestParamCreator('req.session');
@@ -17,9 +17,22 @@ export function Inject(target: any, propertyKey: string, index: number) {
 function requestParamCreator(dataSource: string, validate?: boolean, error?: boolean) {
 	return function (target, propertyKey, index) {
 		const meta = MetaAccessor.open(target[propertyKey]);
-		meta.paramsTypes[index] = Reflect.getMetadata("design:paramtypes", target, propertyKey)[index];
+		const type = meta.paramsTypes[index] = Reflect.getMetadata("design:paramtypes", target, propertyKey)[index];
+
+		if(type && validate && Reflect.has(type, 'parse')) {
+			meta.params[index] = assignValidation(meta, dataSource, index);
+		} else {
+			meta.params[index] = dataSource;
+		}
+
 		meta.params[index] = dataSource;
 		meta.paramsValidate[index] = validate || false;
 		meta.error = meta.error || !!error;
 	};
+}
+
+function assignValidation(meta: MetadataObject, dataSource: string, index: number) {
+	const Hash = `req[Symbol.for("${dataSource}@${meta.paramsTypes[index].name}")]`;
+	const parser = `meta.paramsTypes[${index}].parse(${dataSource}))`;
+	return `(req[${Hash}] = req[${Hash}] || ${parser})`;
 }
