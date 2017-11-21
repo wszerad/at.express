@@ -1,16 +1,18 @@
-import * as path from 'path';
+import * as path from "path";
+import { Controller } from '../classes/Controller';
+import { Get } from '../decorators/RequestMethods.decorator';
 import { Injector } from '../utils/Injector';
 import { MetaAccessor, MetadataObject } from '../utils/MetaAccessor';
 
-class APIConstructor {
-	active: boolean = false;
+export class API extends Controller {
+
+	host: string;
+	basePath: string;
 	tags: Set<string> = new Set();
 	paths: Map<string, SwaggerPaths> = new Map();
 	definitions: any = {};
 
 	addMethod(stackedPath: string, controller: any, propertyKey: string) {
-		if(!this.active) return;
-
 		const instance = Injector.get(controller);
 		const meta = MetaAccessor.get(instance[propertyKey]);
 		const sPath = path.posix.join(stackedPath, meta.path);
@@ -37,8 +39,6 @@ class APIConstructor {
 	}
 
 	addParam(path: SwaggerPath, meta: MetadataObject, index: number) {
-		if(!this.active) return;
-
 		const paramType = meta.paramsTypes[index];
 		const schemaName = paramType && paramType.name;
 		const param = meta.params[index];
@@ -68,35 +68,41 @@ class APIConstructor {
 	formatPath(path: string): string {
 		return path.replace(/(\:[^/]+)/g, (match) => `{${match.slice(1)}}`)
 	}
-}
-export const APIInstance = new APIConstructor();
 
-
-export function API({host, basePath, definitions}: APIConfig) {
-	APIInstance.active = true;
-	APIInstance.definitions = definitions;
-
-	return function (req, res) {
-		res.send(<SwaggerSchema>{
+	@Get('*')
+	swagger() {
+		return <SwaggerSchema>{
 			swagger: '2.0',
-			host,
-			basePath,
-			tags: Array.from(APIInstance.tags.values())
+			host: this.host,
+			basePath: this.basePath,
+			tags: Array.from(this.tags.values())
 				.map(name => ({ name })),
-			paths: Array.from(APIInstance.paths.entries())
+			paths: Array.from(this.paths.entries())
 				.reduce((paths, [key, path]) => {
 					paths[key] = path;
 					return paths;
 				}, {}),
-			definitions
-		});
-		res.end();
+			definitions: this.definitions
+		}
 	}
+
+	static configure({host, basePath, apiPath = '/api', definitions}: APIConfig) {
+		const instance = <API>Injector.get(API);
+		instance.host = host;
+		instance.definitions = definitions;
+		instance.basePath = basePath;
+
+		MetaAccessor.open(API).path = apiPath;
+
+		return API;
+	}
+
 }
 
 interface APIConfig {
 	host: string;
 	basePath: string;
+	apiPath?: string;
 	definitions: any;
 }
 

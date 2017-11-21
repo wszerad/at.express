@@ -4,6 +4,9 @@
 	"basePath": "",
 	"tags": [
 		{
+			"name": "API"
+		},
+		{
 			"name": "NestedSwagger"
 		},
 		{
@@ -48,6 +51,16 @@
 					}
 				],
 				"description": ""
+			}
+		},
+		"/swaggerApi/*": {
+			"get": {
+				"description": "",
+				"operationId": "swagger",
+				"parameters": [],
+				"tags": [
+					"API"
+				]
 			}
 		}
 	},

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { API } from '../predefined/API.wrapper';
+import { API } from '../predefined/API.controller';
 import { Arguments } from './cases/arguments';
 import { Async } from './cases/async';
 import { ConvertValidate } from './cases/convert&validate';
@@ -28,11 +28,12 @@ Nested1.router(app);
 Nested2.router(app);
 Errors.router(app);
 ConvertValidate.router(app);
-app.get('/API', API({
+API.configure({
 	host: '127.0.0.1:3000',
 	basePath: '',
+	apiPath: '/swaggerApi',
 	definitions
-}));
+}).router(app);
 Swagger.router(app);
 
 export const server = app.listen(3000);

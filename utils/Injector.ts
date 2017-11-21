@@ -18,6 +18,10 @@ class InjectorConstructor {
 		}
 	}
 
+	has(target: InjectableC): boolean {
+		return this.services.has(target);
+	}
+
 	middlewareExecutor(target: MiddlewareC) {
 		if(this.middlewareCache.has(target)) {
 			return this.middlewareCache.get(target);
