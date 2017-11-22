@@ -23,6 +23,7 @@ describe('Class', function() {
 	require('./cases/nested.spec');
 	require('./cases/convert&validate.spec');
 	require('./cases/swagger.spec');
+	require('./cases/errors.spec');
 
 });
 

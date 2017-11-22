@@ -25,6 +25,7 @@ describe('Error handling', function () {
 		req()
 			.get('/errors/error')
 			.end((err, res) => {
+				assert.equal(res.status, 200);
 				assert.equal(res.text, 'advanced error');
 				done();
 			});
@@ -32,11 +33,11 @@ describe('Error handling', function () {
 
 	it('redirect', (done) => {
 		app.set('ERROR_PATH', '/errors/error');
-		const params = {params: '501'};
 
 		req()
 			.get('/errors/redirect')
 			.end((err, res) => {
+				assert.equal(res.status, 200);
 				assert.deepEqual(res.text, 'redirected');
 				done();
 			});

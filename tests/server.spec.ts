@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { API } from '../predefined/API.controller';
+import { ErrorMiddleware } from '../predefined/Error.middleware';
 import { Arguments } from './cases/arguments';
 import { Async } from './cases/async';
 import { ConvertValidate } from './cases/convert&validate';
@@ -35,5 +36,6 @@ API.configure({
 	definitions
 }).router(app);
 Swagger.router(app);
+ErrorMiddleware.router(app);
 
 export const server = app.listen(3000);

@@ -1,10 +1,8 @@
 import { Controller } from '../../classes/Controller';
 import { ResponseError } from '../../classes/ResponseError';
-import { After } from '../../decorators/Middleware.decorator';
 import { Path } from '../../decorators/Path.decorator';
 import { Get } from '../../decorators/RequestMethods.decorator';
 import { Params } from '../../decorators/RequestParams.decorator';
-import { ErrorMiddleware } from '../../predefined/Error.middleware';
 
 class ParamsData {
 	id: number;
@@ -20,7 +18,6 @@ class ParamsData {
 	}
 }
 
-@After(ErrorMiddleware)
 @Path('/convert_validate')
 export class ConvertValidate extends Controller {
 
