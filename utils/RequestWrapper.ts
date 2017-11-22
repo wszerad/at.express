@@ -6,7 +6,10 @@ export class RequestWrapper {
 	static create(instance: any, method: Function, metadata: MetadataObject) {
 		const executor = new Function('handler', 'meta', 'err', 'req', 'res', 'next', `
 			Promise
-				.resolve(handler(${metadataExtractor(metadata)}))
+				.resolve(true)
+				.then(()=>{
+					return handler(${metadataExtractor(metadata)});
+				})
 				.then(response => {
 					if(!res.headersSent && response !== undefined) {
 						res.send(response);
