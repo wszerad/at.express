@@ -4,7 +4,7 @@ import { Get } from '../decorators/RequestMethods.decorator';
 import { Injector } from '../utils/Injector';
 import { MetaAccessor, MetadataObject } from '../utils/MetaAccessor';
 
-export class API extends Controller {
+export class APIController extends Controller {
 
 	host: string;
 	basePath: string;
@@ -87,14 +87,14 @@ export class API extends Controller {
 	}
 
 	static configure({host, basePath, apiPath = '/api', definitions}: APIConfig) {
-		const instance = <API>Injector.get(API);
+		const instance = <APIController>Injector.get(APIController);
 		instance.host = host;
 		instance.definitions = definitions;
 		instance.basePath = basePath;
 
-		MetaAccessor.open(API).path = apiPath;
+		MetaAccessor.open(APIController).path = apiPath;
 
-		return API;
+		return APIController;
 	}
 
 }

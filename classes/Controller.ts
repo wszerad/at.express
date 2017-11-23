@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as path from 'path';
 import { ControllerC } from '../model';
-import { API } from '../predefined/API.controller';
+import { APIController } from '../predefined/API.controller';
 import { RequestWrapper } from '../utils/RequestWrapper';
 import { MetaAccessor, MetadataObject } from '../utils/MetaAccessor';
 import { Injector } from '../utils/Injector';
@@ -62,8 +62,8 @@ export abstract class Controller {
 
 					});
 				} else {
-					if(Injector.has(API)) {
-						(<API>Injector.get(API)).addMethod(stackedPath, controller, name);
+					if(Injector.has(APIController)) {
+						(<APIController>Injector.get(APIController)).addMethod(stackedPath, controller, name);
 					}
 
 					router[meta.methodType](meta.path, ...[

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { API } from '../predefined/API.controller';
+import { APIController } from '../predefined/API.controller';
 import { ErrorMiddleware } from '../predefined/Error.middleware';
 import { Arguments } from './cases/arguments';
 import { Async } from './cases/async';
@@ -29,7 +29,7 @@ Nested1.router(app);
 Nested2.router(app);
 Errors.router(app);
 ConvertValidate.router(app);
-API.configure({
+APIController.configure({
 	host: '127.0.0.1:3000',
 	basePath: '',
 	apiPath: '/swaggerApi',

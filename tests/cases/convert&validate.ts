@@ -27,8 +27,6 @@ class ParamsData2 {
 	id?: number;
 
 	static parse(params) {
-		console.log(params);
-
 		return {
 			uuid: String(params.id)
 		};

@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import 'mocha';
-import { app } from '../server.spec';
+import { app } from '../test-server';
 import { req } from '../util';
 
 describe('Error handling', function () {

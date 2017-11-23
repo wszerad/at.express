@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import { server } from './server.spec';
+import { server } from './test-server';
 import 'mocha';
 import 'chai';
 import 'chai-http'
