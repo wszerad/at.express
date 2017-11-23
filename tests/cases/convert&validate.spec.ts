@@ -10,19 +10,26 @@ describe('Convert & Validate', function () {
 			.end((err, res) => {
 				assert.deepEqual(res.body, {
 					params: 1,
-					paramsType: 'number'
+					paramsType: 'number',
+					params2: '1',
+					params2Type: 'string',
+					params2TypeId: 'undefined'
 				});
 				done();
 			});
 	});
 
-	it('validation:invalid', (done) => {
+	it('validation:converted', (done) => {
 		req()
-			.get('/convert_validate/data/-1')
+			.get('/convert_validate/converter/1')
 			.end((err, res) => {
 				assert.deepEqual(res.body, {
-					params: -1,
-					paramsType: 'number'
+					params: 1,
+					paramsType: 'number',
+					params2: '1',
+					params2Type: 'string',
+					params2Id: 1,
+					params2TypeId: 'number'
 				});
 				done();
 			});

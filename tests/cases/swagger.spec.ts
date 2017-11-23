@@ -6,7 +6,7 @@ describe('Swagger', function () {
 
 	it('JSONSchema', (done) => {
 		req().get('/swaggerApi').end((err, res) => {
-			assert.equal(res.body, require('./swagger.response.json'));
+			assert.deepEqual(res.body, require('./swagger.response.json'));
 			done();
 		});
 	});

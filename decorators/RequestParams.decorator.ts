@@ -31,7 +31,7 @@ function requestParamCreator(dataSource: string, validate?: boolean, error?: boo
 }
 
 function assignValidation(meta: MetadataObject, dataSource: string, index: number) {
-	const Hash = `req[Symbol.for("${dataSource}@${meta.paramsTypes[index].name}")]`;
+	const Hash = `Symbol.for("${dataSource}@${meta.paramsTypes[index].name}")`;
 	const parser = `meta.paramsTypes[${index}].parse(${dataSource})`;
 	return `(req[${Hash}] = req[${Hash}] || ${parser})`;
 }
